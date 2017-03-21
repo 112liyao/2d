@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    *{
+        margin: 0;  padding: 0;
+    }
+    .clock{
+        width: 300px;
+        height: 300px;
+        border: 6px solid #00a0e9;
+        border-radius: 50%;
+        position: fixed;
+        left: 0;
+        right:0;
+        top: 0;
+        bottom:0;
+        margin: auto;
+        background: radial-gradient(#fff,#ccc);
+    }
+</style>
+<body>
+    <div class="clock"></div>
+</body>
+<script>
+//    1.相对于自己的位置去变换的
+//    2.他的变换不会影响到别的元素
+    window.onload=function () {
+        var clock=document.getElementsByClassName("clock")[0];
+        create();
+        //创建刻度盘
+        function create() {
+            for(i=0; i<60; i++){
+                if(i%5==0){
+                    widths=6;
+                    heights=10;
+                }else{
+                    widths=4;
+                    heights=6;
+                }
+                var kedu=document.createElement("div");
+                kedu.style.cssText="width:"+widths+"px;height:"+heights+"px;background:#000;position:absolute;left:"+(300-widths)/2+"px;top:0";
+                kedu.style.transformOrigin="center 150px";
+                kedu.style.transform="rotate("+i*6+"deg)";
+                clock.appendChild(kedu);
+            }
+        }
+        //获取时间
+        var times=new Date();
+        var hours=times.getHours();
+        var min=times.getMinutes();
+        var sec=times.getSeconds();
+        console.log(hours,min,sec)
+        //创建时分秒
+        var h=zhizhen(5,50,"#000",hours*30+min*6/12);
+        var m=zhizhen(3,80,"#000",min*6);
+        var s=zhizhen(1,100,"#000",sec*6);
+        setInterval(function () {
+            var times=new Date();
+            var hours=times.getHours();
+            var min=times.getMinutes();
+            var sec=times.getSeconds();
+            h.style.transform="rotate("+(hours*30+min*6/12)+"deg)";
+            m.style.transform="rotate("+min*6+"deg)";
+            s.style.transform="rotate("+sec*6+"deg)";
+        },1000)
+        //创建时针分针秒针
+        function zhizhen(w,h,c,a) {
+            var widths=(300-w)/2;
+            var hegihts=300/2-h;
+            var zhen=document.createElement("div");
+            zhen.style.cssText="width:"+w+"px;height:"+h+"px;background:"+c+";position:absolute;left:"+widths+"px;top:"+hegihts+"px;";
+            zhen.style.transformOrigin="center bottom";
+            zhen.style.transform="rotate("+a+"deg)";
+            clock.appendChild(zhen);
+            return zhen;
+        }
+    }
+</script>
+</html>
