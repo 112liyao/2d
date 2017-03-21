@@ -23,13 +23,12 @@
         var arr=[];
         var body=document.getElementsByTagName("body")[0];
         //模拟随风摆动的动作
-//        var de=Math.sin(Math.PI/180);
-//        console.log(de);
-        setInterval(function(){
-            var a=Math.random()*60-30;
-            body.style.transition="transform 2s linear";
-            body.style.transform="rotate("+a+"deg)";
-        },3000)
+        var speed=5;
+        var t=setInterval(function () {
+            body.style.transition="transform 2s Linear";
+            speed+=5;
+            body.style.transform="rotate("+Math.sin(Math.PI/180*speed)*10+"deg)";
+        },50)
         //获取屏幕宽度和高度
         var clientW=document.documentElement.clientWidth;
         var clientH=document.documentElement.clientHeight;
